@@ -17,15 +17,16 @@ export class JokeUI extends React.Component {
     return <div>{this.props.joke.punchline}</div>;
   }
 }
-
-export class JokeList extends React.Component {
+//PureComponent prevents unnecessary re-rendering. Basically, it handles what was the shouldComponentUpdate lifecycle method for you
+// It does a shallow comparison on props and state to see if anything has changed. In many cases, it's more performant.
+export class JokeList extends React.PureComponent {
   constructor(props) {
     super(props);
   }
-
+// I prefer this to using the index as the key.
   render() {
-    const jokes = this.props.jokes.map( (joke, idx) =>
-      <li key={idx}>
+    const jokes = this.props.jokes.map((joke) =>
+      <li key={joke}>
         <JokeUI joke={joke} />
       </li> 
     );
