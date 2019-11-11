@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Joke, JokeUI, JokeList } from './Joke';
+import { Joke, JokeDisplay, JokeList } from './Joke';
 import { Header } from './Header';
 import Footer from './Footer';
 
@@ -21,7 +21,7 @@ const App =() => {
     <div className="App">
       <Header />
 
-      {/* <JokeUI joke={jokes[0]} /> */}
+      {/* <JokeDisplay joke={jokes[0]} /> */}
       <JokeList jokes={jokes} />
 
       <Footer company="Neward &amp; Associates, LLC" />
