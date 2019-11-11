@@ -3,9 +3,10 @@ import logo from './logo.svg';
 import './App.css';
 import { Joke, JokeUI, JokeList } from './Joke';
 import { Header } from './Header';
-import { Footer } from './Footer';
+import Footer from './Footer';
 
-function App() {
+//rewrote this with ES6 arrow syntax. See also: Footer.js
+const App =() => {
   const jokes = [
     new Joke("Why did the Republican chicken cross the road?",
       "FAKE NEWS!", 0, 0),
@@ -26,6 +27,6 @@ function App() {
       <Footer company="Neward &amp; Associates, LLC" />
     </div>
   );
-}
+};
 
 export default App;
