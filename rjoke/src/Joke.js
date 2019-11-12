@@ -96,15 +96,16 @@ export class JokeList extends React.PureComponent {
     }
   }
 // I prefer this to using the index as the key.
+    //also refactored to just have the map in render
   render() {
-    const jokes = this.props.jokes.map((joke) =>
-      <li key={joke.punchline}>
-        <JokeDisplay joke={joke} />
-      </li> 
-    );
-    return <div>
-      <ul>{jokes}</ul>
-    </div>;
+    return <ul>
+          {
+              this.props.jokes.map(joke =>
+              <li key={joke.punchline}>
+                <JokeDisplay joke={joke} />
+              </li> )
+          }
+      </ul>;
   }
 }
 
