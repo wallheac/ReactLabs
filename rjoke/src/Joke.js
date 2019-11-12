@@ -42,7 +42,8 @@ export class JokeDisplay extends React.Component {
 
     onEditSubmit(event){
       event.preventDefault();
-      this.setState({editing: false})
+        this.props.addJoke(new Joke(this.state.activeSetup, this.state.activePunchline, 0, 0));
+        this.setState({editing: false, activeSetup: '', activePunchline: ''});
     }
 
   renderDisplay(){
@@ -63,7 +64,7 @@ export class JokeDisplay extends React.Component {
           </div>
           <div>
               <span>GROANs: </span>
-              <UpvoteCounter  voteCount={this.props && this.props.jokes && this.props.jokes.lols}/>
+              <UpvoteCounter  voteCount={this.props && this.props.jokes && this.props.groans.lols}/>
           </div>
       </>;
   }
@@ -92,17 +93,23 @@ export class JokeList extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-        jokes: []
+        jokes: props.jokes
     }
   }
+  //oh ...hey ... I bet you wanted me to do this. It's waaayy earlier in the directions than I was ready to wire this up
+    //and I hate this business of copying this over into state.
+  addJoke(joke){
+      this.setState({jokes: this.state.jokes.concat(joke)})
+  }
+
 // I prefer this to using the index as the key.
     //also refactored to just have the map in render
   render() {
     return <ul>
           {
-              this.props.jokes.map(joke =>
+              this.state.jokes.map((joke, idx) =>
               <li key={joke.punchline}>
-                <JokeDisplay joke={joke} />
+                <JokeDisplay joke={this.state.jokes[idx]} addJoke={this.addJoke} />
               </li> )
           }
       </ul>;
