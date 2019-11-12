@@ -15,36 +15,75 @@ export class JokeDisplay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        visible: false
+        visible: false,
+        editing: !props.joke.punchline || !props.joke.setup,
+        activeSetup: '',
+        activePunchline: ''
     };
-    this.handlePunchLineClick = this.handlePunchLineClick.bind(this)
+    this.handlePunchLineClick = this.handlePunchLineClick.bind(this);
+      this.handleSetupChange = this.handleSetupChange.bind(this);
+      this.handlePunchlineChange = this.handlePunchlineChange.bind(this);
+      this.onEditSubmit = this.onEditSubmit.bind(this);
   }
 
   handlePunchLineClick(){
       this.setState({visible: !this.state.visible})
-    };
+    }
+
+    handleSetupChange(event){
+      event.preventDefault();
+      this.setState({activeSetup: event.target.value})
+    }
+
+    handlePunchlineChange(event){
+        event.preventDefault();
+        this.setState({activePunchline: event.target.value})
+    }
+
+    onEditSubmit(event){
+      event.preventDefault();
+      this.setState({editing: false})
+    }
+
+  renderDisplay(){
+      return <><br></br>
+          <span>{ this.props.joke.setup }</span><br></br>
+          {this.state.visible ?
+              <>
+                  <span onClick={this.handlePunchLineClick}>{ this.props.joke.punchline }</span><br></br>
+              </> :
+              <>
+                  <button onClick={this.handlePunchLineClick}>CLICK TO REVEAL</button>
+              </>
+          }
+          <br></br>
+          <div>
+              <span>LOLs: </span>
+              <UpvoteCounter  voteCount={this.props && this.props.jokes && this.props.jokes.lols}/>
+          </div>
+          <div>
+              <span>GROANs: </span>
+              <UpvoteCounter  voteCount={this.props && this.props.jokes && this.props.jokes.lols}/>
+          </div>
+      </>;
+  }
+
+  renderEdit(){
+        return <form onSubmit={this.handleSubmit}>
+            <label>
+                Setup:
+                <textarea type="text" value={this.state.activeSetup} onChange={this.handleSetupChange} />
+            </label>
+            <label>
+                Punchline:
+                <textarea type="text" value={this.state.activePunchline} onChange={this.handlePunchlineChange} />
+            </label>
+            <input type="submit" value="Finish" onSubmit={this.onEditSubmit}/>
+        </form>
+  }
 
   render() {
-    return <><br></br>
-        <span>{ this.props.joke.setup }</span><br></br>
-        {this.state.visible ?
-            <>
-                <span onClick={this.handlePunchLineClick}>{ this.props.joke.punchline }</span><br></br>
-            </> :
-            <>
-                <button onClick={this.handlePunchLineClick}>CLICK TO REVEAL</button>
-            </>
-        }
-        <br></br>
-        <div>
-            <span>LOLs: </span>
-                <UpvoteCounter  voteCount={this.props && this.props.jokes && this.props.jokes.lols}/>
-        </div>
-        <div>
-            <span>GROANs: </span>
-            <UpvoteCounter  voteCount={this.props && this.props.jokes && this.props.jokes.lols}/>
-        </div>
-        </>;
+    return this.state.editing ? this.renderEdit() : this.renderDisplay();
   }
 }
 //PureComponent prevents unnecessary re-rendering. Basically, it handles what was the shouldComponentUpdate lifecycle method for you
@@ -52,6 +91,9 @@ export class JokeDisplay extends React.Component {
 export class JokeList extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+        jokes: []
+    }
   }
 // I prefer this to using the index as the key.
   render() {

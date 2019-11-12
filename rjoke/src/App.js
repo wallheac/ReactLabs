@@ -15,7 +15,9 @@ const App =() => {
     new Joke("Why did the millennial chicken cross the road?",
       "OK boomer", 0, 0),
     new Joke("Why did Chuck Norris cross the road?",
-      "He was hungry for chicken!", 0, 0)
+      "He was hungry for chicken!", 0, 0),
+    new Joke("Test joke?",
+          null, 0, 0),
   ];
   return (
     <div className="App">
