@@ -1,34 +1,55 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Joke, JokeDisplay, JokeList } from './Joke';
+import JokeList from './JokeList'
 import { Header } from './Header';
 import Footer from './Footer';
 
-//rewrote this with ES6 arrow syntax. See also: Footer.js
-const App =() => {
-  const jokes = [
+export class Joke {
+    constructor(setup, punchline, lols, groans) {
+        this.setup = setup;
+        this.punchline = punchline;
+        this.lols = lols;
+        this.groans = groans;
+    }
+}
+
+const jokes = [
     new Joke("Why did the Republican chicken cross the road?",
-      "FAKE NEWS!", 0, 0),
+        "FAKE NEWS!", 0, 0),
     new Joke("Why did the Democrat chicken cross the road?",
-      "IMPEACH IT!", 0, 0),
+        "IMPEACH IT!", 0, 0),
     new Joke("Why did the millennial chicken cross the road?",
-      "OK boomer", 0, 0),
+        "OK boomer", 0, 0),
     new Joke("Why did Chuck Norris cross the road?",
-      "He was hungry for chicken!", 0, 0),
+        "He was hungry for chicken!", 0, 0),
     new Joke("Test joke?",
-          null, 0, 0),
-  ];
-  return (
-    <div className="App">
-      <Header />
+        null, 0, 0),
+];
 
-      {/* <JokeDisplay joke={jokes[0]} /> */}
-      <JokeList jokes={jokes} />
+export default class App extends React.PureComponent {
+     constructor(props){
+         super(props)
+         this.state = {
+             jokes
+         };
 
-      <Footer company="Neward &amp; Associates, LLC" />
-    </div>
-  );
-};
+         this.addJoke = this.addJoke.bind(this)
+     }
 
-export default App;
+    addJoke(joke){
+        this.setState({jokes: this.state.jokes.concat(joke)})
+    }
+
+     render() {
+         return (
+             <div className="App">
+                 <Header/>
+
+                 {/* <JokeDisplay joke={jokes[0]} /> */}
+                 <JokeList jokes={this.state.jokes} addJoke={this.addJoke}/>
+
+                 <Footer company="Neward &amp; Associates, LLC"/>
+             </div>
+         )
+     };
+}
